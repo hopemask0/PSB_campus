@@ -43,9 +43,11 @@
     ```bash
     npm start
 
-11.  Запустите сервер:
+11. Запустите сервер:
     ```bash
     python manage.py runserver
+    ```
+
 
 ## Версии 
 ### Backend
