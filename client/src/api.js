@@ -35,6 +35,11 @@ export const createCourse = (payload) => api.post("/courses/", payload);
 export const addStudentToCourse = (courseId, studentId) =>
   api.post(`/courses/${courseId}/add_student/`, { student_id: studentId });
 
+
+export const deleteCourse = (courseId) => {
+  return api.delete(`/courses/${courseId}/`);
+};
+
 //
 // ---------- Материалы курса ----------
 //

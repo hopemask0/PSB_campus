@@ -5,6 +5,7 @@ import {
   createCourse,
   fetchStudents,
   addStudentToCourse,
+  deleteCourse,
 } from "../api";
 import { Link } from "react-router-dom";
 import "./TeacherDashboard.css";
@@ -127,9 +128,33 @@ function TeacherDashboard({ currentUser }) {
   const [description, setDescription] = useState("");
   const [colorId, setColorId] = useState(COLOR_PRESETS[0].id);
   const [showForm, setShowForm] = useState(false);
-
   const [students, setStudents] = useState([]);
   const [selectedStudentByCourse, setSelectedStudentByCourse] = useState({});
+
+  // Функция для подтверждения удаления
+  const confirmDelete = (course) => {
+    if (window.confirm(`Вы уверены, что хотите удалить курс "${course.title}"? Это действие нельзя отменить.`)) {
+      handleDeleteCourse(course.id);
+    }
+  };
+
+  // Функция удаления курса
+  const handleDeleteCourse = async (courseId) => {
+    try {
+      await deleteCourse(courseId);
+      // Удаляем курс из локального состояния
+      setCourses(courses.filter(course => course.id !== courseId));
+      // Также очищаем выбранного студента для этого курса, если был
+      setSelectedStudentByCourse(prev => {
+        const newState = { ...prev };
+        delete newState[courseId];
+        return newState;
+      });
+    } catch (error) {
+      console.error("Ошибка при удалении курса:", error);
+      alert("Не удалось удалить курс");
+    }
+  };
 
   const loadCourses = () => {
     if (!currentUser) return;
@@ -152,14 +177,13 @@ function TeacherDashboard({ currentUser }) {
   const handleCreateCourse = async () => {
     if (!title) return;
     try {
-      // Получаем выбранный цвет
       const selectedColor = COLOR_PRESETS.find(preset => preset.id === colorId);
       
       await createCourse({
         title,
         description,
         teacher: currentUser.id,
-        color: selectedColor ? selectedColor.value : COLOR_PRESETS[0].value, // Передаем цвет на сервер
+        color: selectedColor ? selectedColor.value : COLOR_PRESETS[0].value,
       });
       setTitle("");
       setDescription("");
@@ -172,14 +196,10 @@ function TeacherDashboard({ currentUser }) {
     }
   };
 
-  // Функция для получения цвета карточки из данных курса
   const getCardColor = (course) => {
-    // Если цвет сохранен в курсе, используем его (теперь с сервера приходит поле color)
     if (course.color) {
       return course.color;
     }
-    
-    // На всякий случай оставляем старую логику для обратной совместимости
     const index = courses.findIndex(c => c.id === course.id);
     const preset = COLOR_PRESETS[index % COLOR_PRESETS.length];
     return preset.value;
@@ -203,6 +223,8 @@ function TeacherDashboard({ currentUser }) {
         ...prev,
         [courseId]: "",
       }));
+      // Обновляем список курсов, чтобы отобразить нового студента
+      loadCourses();
     } catch (e) {
       console.error(e);
       alert("Ошибка при назначении студента");
@@ -314,55 +336,66 @@ function TeacherDashboard({ currentUser }) {
             ) : (
               <div className="td-courses-grid">
                 {courses.map((course) => {
-                  const bgColor = getCardColor(course); // Используем новую функцию
+                  const bgColor = getCardColor(course);
                   const progress = course.progress ?? 0;
                   const studentCount = course.students?.length || 0;
 
                   return (
                     <div key={course.id} className="td-course-card-wrapper">
-                      <Link
-                        to={`/course/${course.id}`}
-                        className="td-course-card-link"
-                      >
-                        <div
-                          className="td-course-card"
-                          style={{ backgroundColor: bgColor }}
+                      <div className="td-course-card-header">
+                        <Link
+                          to={`/course/${course.id}`}
+                          className="td-course-card-link"
                         >
-                          <div className="td-course-header">
-                            <h3 className="td-course-title">
-                              {course.title}
-                            </h3>
-                            <div className="td-course-meta">
-                              <span className="td-course-students">
-                                {studentCount} студентов
-                              </span>
+                          <div
+                            className="td-course-card"
+                            style={{ backgroundColor: bgColor }}
+                          >
+                            <div className="td-course-header">
+                              <h3 className="td-course-title">
+                                {course.title}
+                              </h3>
+                              <div className="td-course-meta">
+                                <span className="td-course-students">
+                                  {studentCount} студентов
+                                </span>
+                              </div>
+                            </div>
+
+                            <p className="td-course-description">
+                              {course.description && course.description.trim().length > 0
+                                ? course.description
+                                : "Описание курса пока не добавлено..."}
+                            </p>
+
+                            <div className="td-course-progress">
+                              <div className="td-course-progress-row">
+                                <span className="td-course-progress-perc">
+                                  {progress}%
+                                </span>
+                                <span className="td-course-progress-label">
+                                  Прогресс курса
+                                </span>
+                              </div>
+                              <div className="td-course-progress-bar">
+                                <div
+                                  className="td-course-progress-bar-fill"
+                                  style={{ width: `${progress}%` }}
+                                />
+                              </div>
                             </div>
                           </div>
-
-                          <p className="td-course-description">
-                            {course.description && course.description.trim().length > 0
-                              ? course.description
-                              : "Описание курса пока не добавлено..."}
-                          </p>
-
-                          <div className="td-course-progress">
-                            <div className="td-course-progress-row">
-                              <span className="td-course-progress-perc">
-                                {progress}%
-                              </span>
-                              <span className="td-course-progress-label">
-                                Прогресс курса
-                              </span>
-                            </div>
-                            <div className="td-course-progress-bar">
-                              <div
-                                className="td-course-progress-bar-fill"
-                                style={{ width: `${progress}%` }}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
+                        </Link>
+                        
+                        {/* Кнопка удаления */}
+                        <button
+                          className="td-delete-course-button"
+                          onClick={() => confirmDelete(course)}
+                          title="Удалить курс"
+                        >
+                          🗑️
+                        </button>
+                      </div>
 
                       <div className="td-course-assign">
                         <StudentSelect

@@ -5,6 +5,8 @@
   background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
   font-family: 'Inter', sans-serif;
   color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
 .td-header {
@@ -15,6 +17,7 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
 }
 
 .td-header-title {
@@ -32,6 +35,7 @@
 
 .td-main {
   padding: 40px 32px;
+  flex: 1;
 }
 
 .td-content {
@@ -312,6 +316,13 @@
 .td-course-card-wrapper {
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.td-course-card-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .td-course-card-link {
@@ -338,6 +349,8 @@
   position: relative;
   transition: all 0.3s ease;
   cursor: pointer;
+  /* Добавляем отступ снизу для кнопки удаления */
+  padding-bottom: 60px;
 }
 
 /* Исправление: весь текст в карточках теперь белый для лучшей читаемости */
@@ -352,14 +365,16 @@
   font-size: 18px;
   font-weight: 700;
   margin: 0;
-  color: #ffffff; /* Белый цвет для заголовка */
+  color: #ffffff;
   flex: 1;
+  /* Ограничиваем ширину, чтобы не перекрывала кнопку */
+  padding-right: 40px;
 }
 
 .td-course-students {
   font-size: 12px;
-  color: #ffffff; /* Белый цвет вместо #b2bec3 */
-  background: rgba(255, 255, 255, 0.15); /* Немного светлее фон для контраста */
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
   padding: 4px 8px;
   border-radius: 6px;
   white-space: nowrap;
@@ -367,16 +382,22 @@
 
 .td-course-description {
   font-size: 14px;
-  color: #ffffff; /* Белый цвет вместо #e0e0e0 */
+  color: #ffffff;
   line-height: 1.5;
   margin-bottom: 16px;
   flex: 1;
+  /* Обеспечиваем, что описание не перекрывает кнопку */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Ограничиваем до 3 строк */
+  -webkit-box-orient: vertical;
 }
 
 .td-course-progress {
   margin-top: auto;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2); /* Более заметная граница */
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
 }
 
 .td-course-progress-row {
@@ -390,13 +411,13 @@
 .td-course-progress-perc {
   font-size: 16px;
   font-weight: 700;
-  color: #ffffff; /* Белый цвет вместо #a29bfe */
+  color: #ffffff;
 }
 
 /* Исправление: текст прогресса теперь белый */
 .td-course-progress-label {
   font-size: 12px;
-  color: #ffffff; /* Белый цвет вместо #b2bec3 */
+  color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -404,7 +425,7 @@
 .td-course-progress-bar {
   width: 100%;
   height: 6px;
-  background: rgba(255, 255, 255, 0.2); /* Более светлый фон для контраста */
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -412,8 +433,35 @@
 /* Исправление: полоса прогресса теперь белая */
 .td-course-progress-bar-fill {
   height: 100%;
-  background: #ffffff; /* Белый цвет вместо градиента */
+  background: #ffffff;
   transition: width 0.3s ease;
+}
+
+/* Кнопка удаления - ПЕРЕМЕЩЕНА В ПРАВЫЙ НИЖНИЙ УГОЛ */
+.td-delete-course-button {
+  position: absolute;
+  bottom: 16px; /* Над прогресс-баром */
+  right: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  z-index: 10;
+  opacity: 0.7;
+}
+
+.td-delete-course-button:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Исправление: улучшено позиционирование для выпадающего меню студентов */
@@ -431,7 +479,7 @@
 .td-course-assign .td-custom-select {
   flex: 1;
   position: relative;
-  min-width: 0; /* Предотвращает переполнение */
+  min-width: 0;
 }
 
 /* Исправление: увеличен z-index и улучшено позиционирование для выпадающего меню студентов */
@@ -454,7 +502,7 @@
   white-space: nowrap;
   min-width: 100px;
   transition: all 0.3s ease;
-  flex-shrink: 0; /* Предотвращает сжатие кнопки */
+  flex-shrink: 0;
 }
 
 .td-assign-button:hover:not(:disabled) {
@@ -495,6 +543,8 @@
   padding: 20px;
   text-align: center;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 .td-footer-content {
@@ -552,5 +602,22 @@
   .td-add-button,
   .td-cancel-button {
     width: 100%;
+  }
+
+  .td-delete-course-button {
+    bottom: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .td-course-title {
+    padding-right: 35px;
+  }
+
+  .td-footer-content {
+    flex-direction: column;
+    gap: 8px;
   }
 }

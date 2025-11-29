@@ -57,6 +57,7 @@ class Assignment(models.Model):
         return f"{self.title} ({self.course})"
 
 
+
 class Submission(models.Model):
     STATUS_CHOICES = (
         ('submitted', 'Submitted'),
@@ -73,17 +74,15 @@ class Submission(models.Model):
     )
     submitted_at = models.DateTimeField(auto_now_add=True)
     feedback = models.TextField(null=True, blank=True)
-    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
-    student = models.ForeignKey(Person, on_delete=models.CASCADE)
     answer_text = models.TextField(blank=True)
-    file = models.FileField(upload_to='submissions/', blank=True, null=True)  # ← НОВОЕ
+    file = models.FileField(upload_to='submissions/', blank=True, null=True)
     grade = models.IntegerField(blank=True, null=True)
-    status = models.CharField(max_length=20, default="submitted")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="submitted")
     teacher_comment = models.TextField(blank=True)
-    submitted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Submission #{self.id} by {self.student} for {self.assignment}"
+
 class CourseMaterial(models.Model):
     MATERIAL_TYPES = [
         ('text', 'Текст'),
