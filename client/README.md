@@ -74,13 +74,19 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 
+
+
 python -m venv venv
 source venv/Scripts/activate
+
+
+
+## Запуск сайта
+
+# в одном терминале
+cd server
+
 pip install -r requirements.txt
-
-npm install
-
-npm run build
 
 # Проверьте миграции
 python manage.py makemigrations
@@ -88,14 +94,17 @@ python manage.py makemigrations
 # Примените миграции к базе данных
 python manage.py migrate
 
-## Запуск сайта
-
-# в одном терминале
-cd server
-
-python manage.py runserver
 
 # в другом терминале
 cd client
 
+npm install
+
+npm run build
+
 npm start
+
+
+# там где server терминал и чекаем
+
+python manage.py runserver
