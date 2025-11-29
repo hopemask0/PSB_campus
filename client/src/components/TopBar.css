@@ -1,0 +1,117 @@
+/* client/src/components/TopBar.css */
+
+.topbar-root {
+  height: 72px;
+  padding: 0 48px;
+  background: rgba(10, 10, 20, 0.98);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.9);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+.topbar-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar-logo {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.topbar-subtitle {
+  margin-top: 2px;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* bell */
+
+.topbar-bell {
+  position: relative;
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.topbar-bell-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 10%, #fbbf24, #92400e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
+}
+
+.topbar-bell-emoji {
+  font-size: 22px;
+}
+
+.topbar-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #f97316;
+  color: #111827;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* user pill */
+
+.topbar-user-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: radial-gradient(
+    circle at top left,
+    rgba(148, 163, 248, 0.22),
+    rgba(15, 23, 42, 0.98)
+  );
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
+}
+
+.topbar-user-name {
+  font-size: 14px;
+  color: #e5e7eb;
+}
+
+.topbar-role-chip {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: linear-gradient(120deg, #4f46e5, #7c3aed);
+  color: #e5e7eb;
+}

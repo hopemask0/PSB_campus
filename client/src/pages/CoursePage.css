@@ -1,39 +1,148 @@
 /* client/src/pages/CoursePage.css */
 
+/* БАЗА */
 .cp-root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #f5f6fb;
+  background: linear-gradient(135deg, #050509, #0b1021 45%, #0f172a 100%);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  position: relative;
+  overflow: hidden;
+  color: #e5e7eb;
+}
+
+/* анимированный фон */
+.cp-root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(56, 189, 248, 0.12), transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(129, 140, 248, 0.16), transparent 55%),
+    radial-gradient(circle at 50% 40%, rgba(94, 92, 255, 0.12), transparent 55%);
+  animation: cp-bgShift 12s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes cp-bgShift {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* геометрия */
+
+.cp-geo {
+  position: absolute;
+  z-index: 0;
+  filter: blur(1px);
+  animation: cp-float 9s ease-in-out infinite;
+}
+
+@keyframes cp-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(180deg);
+  }
+}
+
+.cp-geo-1 {
+  top: 18%;
+  left: 8%;
+  width: 110px;
+  height: 110px;
+  background: linear-gradient(
+    45deg,
+    rgba(129, 140, 248, 0.32),
+    rgba(59, 130, 246, 0.2)
+  );
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+.cp-geo-2 {
+  top: 30%;
+  right: 14%;
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(
+    135deg,
+    rgba(56, 189, 248, 0.26),
+    rgba(37, 99, 235, 0.18)
+  );
+  border-radius: 50%;
+  animation-delay: 2s;
+}
+.cp-geo-3 {
+  bottom: 20%;
+  right: 8%;
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(
+    315deg,
+    rgba(59, 130, 246, 0.22),
+    rgba(15, 23, 42, 0.9)
+  );
+  border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+  animation-delay: 4s;
+}
+
+.cp-main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 28px 24px 40px;
+}
+
+.cp-content {
+  width: 100%;
+  max-width: 1280px;
+}
+.cp-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at top, #1e293b 0, #020617 50%, #000 100%);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui,
     sans-serif;
-  color: #222;
+  color: #e5e7eb;
 }
 
 /* HEADER */
 
 .cp-header {
-  height: 72px;
+  height: 64px;
   padding: 0 40px;
-  background: #7e7af2;
-  color: #fff;
+  background: rgba(15, 23, 42, 0.9);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
-  position: relative;
-  z-index: 10;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 .cp-header-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  color: #c7d2fe;
 }
 
 .cp-header-subtitle {
-  font-size: 14px;
-  opacity: 0.9;
+  font-size: 13px;
+  color: #9ca3af;
 }
 
 /* MAIN */
@@ -42,30 +151,32 @@
   flex: 1;
   display: flex;
   justify-content: center;
-  padding: 32px 24px 40px;
+  padding: 28px 24px 40px;
 }
 
 .cp-content {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1220px;
 }
 
 .cp-page-title {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
-  margin: 0 0 16px;
+  margin: 0 0 14px;
 }
 
-/* Общая карточка */
+/* ОБЩАЯ КАРТОЧКА (glass) */
 
 .cp-card {
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(148, 163, 184, 0.3);
+  background: radial-gradient(circle at top left, rgba(88, 28, 135, 0.16), transparent 55%),
+    rgba(15, 23, 42, 0.95);
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
   padding: 16px 18px;
 }
 
-/* Материалы */
+/* МАТЕРИАЛЫ */
 
 .cp-section-subtitle {
   font-size: 16px;
@@ -83,8 +194,9 @@
 
 .cp-material-item {
   padding: 8px 10px;
-  border-radius: 12px;
-  background: #f3f4ff;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(129, 140, 248, 0.4);
 }
 
 .cp-material-title {
@@ -96,11 +208,12 @@
 .cp-material-body {
   font-size: 13px;
   white-space: pre-line;
+  color: #d1d5db;
 }
 
 .cp-material-link {
   font-size: 13px;
-  color: #4f46e5;
+  color: #a5b4fc;
   text-decoration: none;
 }
 
@@ -108,11 +221,11 @@
   text-decoration: underline;
 }
 
-/* ---------- ТУЛБАР ВИДЖЕТОВ ---------- */
+/* ТУЛБАР ВИДЖЕТОВ */
 
 .cp-toolbar {
-  margin-top: 8px;
-  margin-bottom: 4px;
+  margin-top: 10px;
+  margin-bottom: 6px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -120,7 +233,7 @@
 
 .cp-toolbar-label {
   font-size: 13px;
-  color: #6b7280;
+  color: #9ca3af;
 }
 
 .cp-add-widget-btn {
@@ -130,102 +243,55 @@
   border-radius: 999px;
   padding: 6px 12px;
   font-size: 12px;
-  background: #eef2ff;
-  color: #4f46e5;
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.18), rgba(168, 85, 247, 0.25));
+  color: #e5e7eb;
   display: flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 4px 12px rgba(148, 163, 184, 0.4);
+  box-shadow: 0 10px 28px rgba(88, 28, 135, 0.8);
+  border: 1px solid rgba(186, 230, 253, 0.3);
 }
 
-.cp-add-widget-btn:hover {
-  background: #e0e7ff;
+.cp-add-widget-btn:hover:not(.cp-add-widget-btn--disabled) {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.3), rgba(168, 85, 247, 0.4));
 }
+
 .cp-add-widget-btn--disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: default;
   box-shadow: none;
 }
 
 .cp-add-widget-plus {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1;
 }
 
-/* ---------- ТРИ ВИДЖЕТА (перетаскиваемые) ---------- */
+/* СЕТКА ВИДЖЕТОВ */
 
 .cp-layout {
-  margin-top: 8px;
+  margin-top: 10px;
   display: flex;
-  gap: 16px;
+  gap: 18px;
   align-items: flex-start;
 }
 
-/* Левая панель прогресса — фиксированная ширина */
+/* ЛЕВЫЙ ВИДЖЕТ — УСПЕВАЕМОСТЬ */
 
 .cp-progress-sidebar {
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(148, 163, 184, 0.35);
+  background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 55%),
+    rgba(15, 23, 42, 0.96);
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
   padding: 16px;
   flex: 0 0 240px;
 }
 
-/* Центральный блок (задания + детали) — растягивается */
-
-.cp-center {
-  display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
-  gap: 16px;
-  align-items: flex-start;
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-/* Правая панель чата — фиксированная */
-
-.cp-chat-panel {
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(148, 163, 184, 0.35);
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  max-height: 520px;
-  flex: 0 0 280px;
-}
-
-/* Дополнительный виджет "Заметки" — тоже фиксированной ширины */
-
-.cp-notes-panel {
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(148, 163, 184, 0.35);
-  padding: 14px;
-  flex: 0 0 260px;
-  display: flex;
-  flex-direction: column;
-}
-
-.cp-notes-input {
-  border-radius: 10px;
-  border: 1px solid #d1d5db;
-  padding: 6px 8px;
-  font-size: 13px;
-  margin-bottom: 6px;
-}
-
-.cp-notes-textarea {
-  min-height: 140px;
-}
-
-/* ---------- Содержимое прогресса ---------- */
-
 .cp-sidebar-title {
   font-size: 15px;
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .cp-progress-circle {
@@ -235,10 +301,13 @@
 }
 
 .cp-progress-circle-inner {
-  width: 110px;
-  height: 110px;
+  width: 112px;
+  height: 112px;
   border-radius: 999px;
-  background: conic-gradient(#4f46e5 var(--cp-progress, 0%), #e5e7eb 0%);
+  background: conic-gradient(
+      #a855f7 var(--cp-progress, 0%),
+      rgba(31, 41, 55, 1) 0%
+    );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -248,26 +317,26 @@
   width: 86px;
   height: 86px;
   border-radius: 999px;
-  background: #ffffff;
+  background: radial-gradient(circle at top, #111827 0, #020617 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
   font-weight: 700;
+  color: #e5e7eb;
 }
 
 .cp-progress-status {
   text-align: center;
   font-size: 13px;
   font-weight: 500;
-  color: #4b5563;
-  margin-bottom: 8px;
+  color: #cbd5f5;
+  margin-bottom: 6px;
 }
 
 .cp-progress-details {
   font-size: 13px;
-  color: #374151;
-  margin-top: 6px;
+  color: #9ca3af;
 }
 
 .cp-progress-row {
@@ -276,12 +345,22 @@
   margin-bottom: 4px;
 }
 
-/* ---------- Список заданий + панель ---------- */
+/* ЦЕНТР — ЗАДАНИЯ + ПАНЕЛЬ */
+
+.cp-center {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 16px;
+  align-items: flex-start;
+  flex: 1 1 auto;
+  min-width: 0;
+}
 
 .cp-sidebar {
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 8px 24px rgba(148, 163, 184, 0.29);
+  background: rgba(15, 23, 42, 0.96);
+  border-radius: 20px;
+  border: 1px solid rgba(107, 114, 128, 0.6);
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.9);
   padding: 14px;
 }
 
@@ -301,24 +380,22 @@
   font-size: 13px;
   margin-bottom: 6px;
   cursor: pointer;
-  background: #f3f4ff;
-  color: #111827;
+  background: rgba(30, 64, 175, 0.55);
+  color: #e5e7eb;
   transition: background 0.17s ease, transform 0.07s ease,
     box-shadow 0.17s ease;
 }
 
 .cp-assignment-item:hover {
-  background: #e0e7ff;
+  background: rgba(129, 140, 248, 0.9);
   transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.7);
 }
 
 .cp-assignment-item--active {
-  background: #4f46e5;
-  color: #ffffff;
-  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4);
+  background: linear-gradient(120deg, #6366f1, #a855f7);
+  color: #f9fafb;
 }
-
-/* панель задания */
 
 .cp-main-panel {
   display: flex;
@@ -340,36 +417,41 @@
   font-size: 13px;
   white-space: pre-line;
   margin-bottom: 6px;
+  color: #d1d5db;
 }
 
 .cp-assignment-deadline {
   font-size: 12px;
-  color: #6b7280;
+  color: #9ca3af;
 }
 
-/* формы */
+/* ФОРМЫ */
 
 .cp-textarea {
   width: 100%;
-  border-radius: 12px;
-  border: 1px solid #d1d5db;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.8);
   padding: 8px 10px;
   font-size: 13px;
   resize: vertical;
+  background: rgba(15, 23, 42, 0.85);
+  color: #e5e7eb;
 }
 
 .cp-input {
   border-radius: 10px;
-  border: 1px solid #d1d5db;
+  border: 1px solid rgba(148, 163, 184, 0.8);
   padding: 6px 8px;
   font-size: 13px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
 }
 
 .cp-input-small {
-  width: 60px;
+  width: 64px;
 }
 
-/* кнопки */
+/* КНОПКИ */
 
 .cp-primary-button {
   border: none;
@@ -379,15 +461,15 @@
   padding: 8px 16px;
   font-size: 13px;
   font-weight: 500;
-  background: linear-gradient(90deg, #4f46e5, #8b5cf6);
-  color: #ffffff;
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+  color: #f9fafb;
+  box-shadow: 0 12px 26px rgba(88, 28, 135, 0.85);
   transition: transform 0.07s ease, box-shadow 0.15s ease;
 }
 
-.cp-primary-button:hover {
+.cp-primary-button:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.5);
+  box-shadow: 0 16px 32px rgba(88, 28, 135, 1);
 }
 
 .cp-primary-button:disabled {
@@ -399,20 +481,21 @@
 
 .cp-secondary-button {
   border-radius: 999px;
-  border: 1px solid #c4b5fd;
+  border: 1px solid rgba(165, 180, 252, 0.8);
   padding: 6px 12px;
   font-size: 12px;
-  background: #ffffff;
-  color: #4f46e5;
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .cp-secondary-button:hover {
-  background: #ede9fe;
+  background: rgba(79, 70, 229, 0.4);
+  box-shadow: 0 10px 26px rgba(79, 70, 229, 0.7);
 }
 
-/* комментарии к решению */
+/* КОММЕНТАРИИ */
 
 .cp-comments-card {
   margin-top: 4px;
@@ -429,7 +512,7 @@
 .cp-comment-item {
   padding: 6px 8px;
   border-radius: 10px;
-  background: #f3f4ff;
+  background: rgba(30, 64, 175, 0.65);
   margin-bottom: 6px;
 }
 
@@ -445,10 +528,14 @@
 
 .cp-comment-date {
   font-size: 11px;
-  color: #6b7280;
+  color: #cbd5f5;
 }
 
-/* таблица работ преподавателя */
+/* ТАБЛИЦА РАБОТ ПРЕПОДАВАТЕЛЯ */
+
+.cp-teacher-submissions-card {
+  margin-top: 4px;
+}
 
 .cp-submissions-table {
   width: 100%;
@@ -458,9 +545,14 @@
 
 .cp-submissions-table th,
 .cp-submissions-table td {
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid rgba(55, 65, 81, 0.9);
   padding: 6px 8px;
   text-align: left;
+}
+
+.cp-submissions-table th {
+  font-weight: 600;
+  color: #f9fafb;
 }
 
 .cp-submission-answer-cell {
@@ -470,7 +562,21 @@
   overflow: hidden;
 }
 
-/* ---------- ЧАТ (контент) ---------- */
+/* ПРАВЫЙ ВИДЖЕТ — ЧАТ */
+
+.cp-chat-panel {
+  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.2), transparent 60%),
+    rgba(15, 23, 42, 0.98);
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 1);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 540px;
+  flex: 0 0 290px;
+}
 
 .cp-chat-messages {
   flex: 1;
@@ -480,7 +586,7 @@
 }
 
 .cp-chat-message {
-  background: #f3f4ff;
+  background: rgba(30, 64, 175, 0.6);
   border-radius: 14px;
   padding: 6px 9px;
   margin-bottom: 6px;
@@ -488,7 +594,7 @@
 }
 
 .cp-chat-message--mine {
-  background: #e0f2fe;
+  background: rgba(56, 189, 248, 0.7);
   margin-left: 20px;
 }
 
@@ -503,12 +609,12 @@
 
 .cp-chat-message-date {
   font-size: 10px;
-  color: #6b7280;
+  color: #e5e7eb;
   margin-top: 2px;
 }
 
 .cp-chat-input-block {
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid rgba(55, 65, 81, 1);
   padding-top: 8px;
 }
 
@@ -520,7 +626,34 @@
   width: 100%;
 }
 
-/* вспомогательные */
+/* ВИДЖЕТ "ЗАМЕТКИ" */
+
+.cp-notes-panel {
+  background: rgba(15, 23, 42, 0.97);
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 1);
+  padding: 14px;
+  flex: 0 0 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cp-notes-input {
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  padding: 6px 8px;
+  font-size: 13px;
+  margin-bottom: 6px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+}
+
+.cp-notes-textarea {
+  min-height: 140px;
+}
+
+/* ПРОЧЕЕ */
 
 .cp-empty-text {
   font-size: 13px;
@@ -529,10 +662,11 @@
 
 .cp-footer {
   height: 40px;
-  background: #7e7af2;
-  color: #f9fafb;
+  background: rgba(15, 23, 42, 0.95);
+  color: #9ca3af;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
+  border-top: 1px solid rgba(55, 65, 81, 0.9);
 }

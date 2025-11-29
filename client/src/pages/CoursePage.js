@@ -14,6 +14,7 @@ import {
   createCourseMessage,
 } from "../api";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import TopBar from "../components/TopBar";
 import "./CoursePage.css";
 
 const DEMO_MATERIALS = [
@@ -72,34 +73,23 @@ function CoursePage({ currentUser }) {
   const [materials, setMaterials] = useState([]);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
 
-  // студент
   const [answerText, setAnswerText] = useState("");
   const [file, setFile] = useState(null);
   const [mySubmission, setMySubmission] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
 
-  // преподаватель
   const [submissions, setSubmissions] = useState([]);
   const [gradeBySubmission, setGradeBySubmission] = useState({});
   const [commentBySubmission, setCommentBySubmission] = useState({});
 
-  // чат по курсу
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
-  // порядок виджетов
-  const [widgetsOrder, setWidgetsOrder] = useState([
-    "progress",
-    "center",
-    "chat",
-  ]);
+  const [widgetsOrder, setWidgetsOrder] = useState(["progress", "center", "chat"]);
 
-  // виджеты заметок
   const [notesById, setNotesById] = useState({});
   const [notesCounter, setNotesCounter] = useState(0);
-
-  // --- загрузка данных ---
 
   useEffect(() => {
     fetchCourseById(courseId)
@@ -265,8 +255,6 @@ function CoursePage({ currentUser }) {
     }
   };
 
-  // ---- ВИДЖЕТЫ-ЗАМЕТКИ ----
-
   const handleAddNotesWidget = () => {
     const existingNotesCount = Object.keys(notesById).length;
     if (existingNotesCount >= MAX_NOTES_WIDGETS) {
@@ -298,7 +286,6 @@ function CoursePage({ currentUser }) {
     }));
   };
 
-  // dnd — перетаскивание колонок
   const handleDragEnd = (result) => {
     if (!result.destination) return;
     const items = Array.from(widgetsOrder);
@@ -327,12 +314,12 @@ function CoursePage({ currentUser }) {
 
   return (
     <div className="cp-root">
-      <header className="cp-header">
-        <div className="cp-header-title">PSB Campus</div>
-        <div className="cp-header-subtitle">
-          Заходи не бойся, выходи не плачь
-        </div>
-      </header>
+      <TopBar currentUser={currentUser} notificationsCount={1} />
+
+      {/* геометрия фона */}
+      <div className="cp-geo cp-geo-1" />
+      <div className="cp-geo cp-geo-2" />
+      <div className="cp-geo cp-geo-3" />
 
       <main className="cp-main">
         <div className="cp-content">
@@ -385,7 +372,7 @@ function CoursePage({ currentUser }) {
             </ul>
           </section>
 
-          {/* Тулбар над виджетами */}
+          {/* Тулбар + виджеты */}
           <div className="cp-toolbar">
             <span className="cp-toolbar-label">
               Рабочее пространство курса (виджеты можно перетаскивать)
@@ -408,7 +395,6 @@ function CoursePage({ currentUser }) {
             </button>
           </div>
 
-          {/* Виджеты */}
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="columns" direction="horizontal">
               {(provided) => (
@@ -418,18 +404,13 @@ function CoursePage({ currentUser }) {
                   {...provided.droppableProps}
                 >
                   {widgetsOrder.map((key, index) => (
-                    <Draggable
-                      key={key}
-                      draggableId={key}
-                      index={index}
-                    >
+                    <Draggable key={key} draggableId={key} index={index}>
                       {(dragProvided) => (
                         <div
                           ref={dragProvided.innerRef}
                           {...dragProvided.draggableProps}
                           {...dragProvided.dragHandleProps}
                         >
-                          {/* ПРОГРЕСС */}
                           {key === "progress" && (
                             <aside className="cp-progress-sidebar">
                               <h3 className="cp-sidebar-title">
@@ -461,7 +442,6 @@ function CoursePage({ currentUser }) {
                             </aside>
                           )}
 
-                          {/* ЦЕНТР — задания + сдача */}
                           {key === "center" && (
                             <div className="cp-center">
                               <aside className="cp-sidebar">
@@ -706,7 +686,6 @@ function CoursePage({ currentUser }) {
                             </div>
                           )}
 
-                          {/* ЧАТ */}
                           {key === "chat" && (
                             <aside className="cp-chat-panel">
                               <h3 className="cp-sidebar-title">
@@ -727,9 +706,7 @@ function CoursePage({ currentUser }) {
                                     <div
                                       key={m.id}
                                       className={`cp-chat-message ${
-                                        isMine
-                                          ? "cp-chat-message--mine"
-                                          : ""
+                                        isMine ? "cp-chat-message--mine" : ""
                                       }`}
                                     >
                                       <div className="cp-chat-message-author">
@@ -768,7 +745,6 @@ function CoursePage({ currentUser }) {
                             </aside>
                           )}
 
-                          {/* ЗАМЕТКИ */}
                           {key.startsWith("notes-") && (
                             <aside className="cp-notes-panel">
                               {(() => {
